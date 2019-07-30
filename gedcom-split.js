@@ -3,45 +3,51 @@
 const fs = require('fs');
 const yargs = require('yargs');
 const GedcomStore = require('./lib/gedcom-store');
+const {flatten, unique} = require('./lib/utilities');
 const argv = getArgv();
 const inputFile = argv._[0];
 const gedcom = fs.readFileSync(inputFile, 'utf-8');
 const store = new GedcomStore(gedcom);
-
 const start = store.getObject(argv.individual || argv.family);
-console.log(start.getCollaterals({min: 1, max: argv.up}).map(o => o.getName()))
+const degree = argv.degree;
+const types = argv.types;
+const typeMethod = {
+    ancestors: 'getAncestors',
+    descendants: 'getDescendants',
+    collateral: 'getCollaterals',
+};
+const individualsToExport = unique(flatten(
+    types.map(function (type) {
+        const method = typeMethod[type];
+        return start[method]({min: 0, max: degree});
+    })
+));
+console.log(individualsToExport.map(ind => ind.getName()));
 
 function getArgv() {
     const argv = yargs
         .options({
-            'family': {
+            family: {
                 type: 'string',
                 describe: 'family ID/pointer to export connected record for',
                 alias: 'f',
             },
-            'individual': {
+            individual: {
                 type: 'string',
                 describe: 'individual ID/pointer to export connected record for',
                 alias: 'i',
             },
-            'up': {
+            degree: {
                 type: 'number',
-                describe: 'number of generations up to go',
-                default: Infinity,
+                describe: 'maximum degree of relatedness to export',
+                default: 20,
+                alias: 'd',
             },
-            'down': {
-                type: 'number',
-                describe: 'number of generations down to go',
-                default: Infinity,
-            },
-            'collateral': {
-                type: 'number',
-                describe: 'maximum degree of relation for collateral relatives to include',
-                default: Infinity,
-            },
-            'inlaws': {
-                type: 'boolean',
-                describe: 'include parents-in-law',
+            types: {
+                type: 'array',
+                describe: 'types of relatives to export',
+                default: ['ancestors', 'descendants', 'collateral'],
+                alias: 't',
             },
         })
         .check(function (argv) {
