@@ -18,6 +18,7 @@
   "dependencies": {
     "eslint": "^6.1.0",
     "eslint-config-google": "^0.13.0",
+    "generate-gedcom": "^1.0.1",
     "parse-gedcom": "^1.0.5",
     "yargs": "^13.3.0"
   }

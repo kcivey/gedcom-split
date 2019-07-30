@@ -16,13 +16,14 @@ const typeMethod = {
     descendants: 'getDescendants',
     collateral: 'getCollaterals',
 };
-const individualsToExport = unique(flatten(
+const individuals = unique(flatten(
     types.map(function (type) {
         const method = typeMethod[type];
         return start[method]({min: 0, max: degree});
     })
 ));
-console.log(individualsToExport.map(ind => ind.getName()));
+store.setExportableIndividuals(individuals);
+console.log(store.getGedcom());
 
 function getArgv() {
     const argv = yargs
