@@ -8,7 +8,8 @@ const inputFile = argv._[0];
 const gedcom = fs.readFileSync(inputFile, 'utf-8');
 const store = new GedcomStore(gedcom);
 
-console.log(store.getObject(argv.individual || argv.family));
+const start = store.getObject(argv.individual || argv.family);
+console.log(start.getCollaterals({min: 1, max: argv.up}).map(o => o.getName()))
 
 function getArgv() {
     const argv = yargs
