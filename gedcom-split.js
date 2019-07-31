@@ -22,7 +22,8 @@ const individuals = unique(flatten(
         return start[method]({min: 0, max: degree});
     })
 ));
-store.setExportableIndividuals(individuals);
+store.setExportableIndividuals(individuals)
+    .addSpousesToExportables();
 console.log(store.getGedcom());
 
 function getArgv() {
