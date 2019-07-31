@@ -24,7 +24,7 @@ const individuals = unique(flatten(
 ));
 store.setExportableIndividuals(individuals)
     .addSpousesToExportables();
-console.log(store.getGedcom());
+process.stdout.write(store.getGedcom());
 
 function getArgv() {
     const argv = yargs
