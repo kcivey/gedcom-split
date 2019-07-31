@@ -1,6 +1,6 @@
 {
   "name": "gedcom-split",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Utility to split GEDCOM files in various ways",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
