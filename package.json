@@ -17,7 +17,6 @@
   "homepage": "https://github.com/kcivey/gedcom-split#readme",
   "dependencies": {
     "eslint": "^6.6.0",
-    "eslint-config-google": "^0.14.0",
     "generate-gedcom": "^1.0.1",
     "parse-gedcom": "^1.0.5",
     "yargs": "^14.2.0"
