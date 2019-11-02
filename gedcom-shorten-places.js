@@ -38,6 +38,9 @@ for (const line of lines) {
         }
         newLine = lineParts.join(' ');
     }
+    if (tag === 'DATE' && /^abt \d+$/.test(content)) {
+        continue;
+    }
     writeln(newLine);
 }
 
